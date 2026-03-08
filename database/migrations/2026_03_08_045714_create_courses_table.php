@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('duration')->nullable();
+            $table->string('status')->default('Active');
+            $table->foreignId('created_by')->constrained('users');
+            $table->index('status');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

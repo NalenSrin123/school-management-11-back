@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('profile_schools', function (Blueprint $table) {
             $table->id();
+            $table->string('image_path')->nullable();
+
+            // Foreign Key to UserAccount
+            $table->foreignId('updated_by')->constrained('users');
+
+            $table->timestamp('updated_date')->useCurrentOnUpdate();
             $table->timestamps();
         });
     }
