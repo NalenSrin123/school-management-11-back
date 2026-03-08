@@ -12,8 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
+              $table->id('EventID');
+            $table->string('Name');
+            $table->date('Date');
+            $table->text('Description')->nullable();
+            $table->unsignedBigInteger('CreatedBy');
+            $table->dateTime('CreatedDate')->nullable();
             $table->timestamps();
+
+            $table->foreign('CreatedBy')->references('UserID')->on('user_accounts')->onDelete('cascade');
+
+            $table->index('Date');
         });
     }
 
