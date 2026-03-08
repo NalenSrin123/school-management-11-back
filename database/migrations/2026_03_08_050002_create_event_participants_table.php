@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('event_participants', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('EventID');
+            $table->unsignedBigInteger('UserID');
+            $table->dateTime('RegisteredDate');
+            $table->string('Status')->default('pending');
+
             $table->timestamps();
         });
     }
