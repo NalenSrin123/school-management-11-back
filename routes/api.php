@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/resetOtp',[ResetOTPController::class,"resetOtp"]);
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
 Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
