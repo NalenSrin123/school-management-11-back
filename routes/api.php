@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\resetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
 Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
+
+Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
