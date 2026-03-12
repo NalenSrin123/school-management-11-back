@@ -3,6 +3,7 @@
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\resetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/resetOtp',[ResetOTPController::class,"resetOtp"]);
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
 Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
+
+Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
 // Route::post('/register', [GoogleController::class, 'register']);
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
