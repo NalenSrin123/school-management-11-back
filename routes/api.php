@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ConfirmController;
+use App\Http\Controllers\ConfirmPasswordController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
@@ -22,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
 Route::post('/resetOtp',[ResetOTPController::class,"resetOtp"]);
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
 Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
