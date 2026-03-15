@@ -6,12 +6,50 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\OtpCode;
 use App\Mail\OtpMail;
+use App\Models\User;
 
 class OtpController extends Controller
 {
     /**
      * Send OTP to the user's email.
      */
+    public function loginWithOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp'   => 'required|digits:6'
+        ]);
+
+        $data = OtpCode::where('email', $request->email)
+            ->where('code', $request->otp)
+            ->first();
+
+        if (!$data || now()->isAfter($data->expire_at)) {
+            return response()->json([
+                'message' => 'Invalid or expired OTP code.'
+            ], 400);
+        }
+
+        $data->delete();
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found.'
+            ], 404);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login successful',
+            'token' => $token,
+            'user' => $user
+        ]);
+    }
+    
     public function sendOtp(Request $request)
     {
         // Validate the incoming email address
@@ -58,9 +96,9 @@ class OtpController extends Controller
             ], 400);
         }
 
-        // Delete the code after successful verification for security
-        $data->delete();
-
+        // Return success, but DO NOT delete the code here.
+        // It will be deleted during the actual login step in loginWithOtp.
+        
         return response()->json([
             'message' => 'OTP verification successful!'
         ]);
