@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,12 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    protected $apiResponse;
+
+    public function __construct(ApiResponseService $apiResponse)
+    {
+        $this->apiResponse = $apiResponse;
+    }
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
