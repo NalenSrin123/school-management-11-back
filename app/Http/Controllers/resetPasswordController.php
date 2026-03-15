@@ -54,7 +54,7 @@ class resetPasswordController extends Controller
     public function resetPassword(Request $request, $id)
 {
     // Get token from Bearer Authorization header
-    $authHeader = $request->header('Authorization'); // "Bearer TOKEN"
+    $authHeader = $request->header('Authorization');
     $token = str_replace('Bearer ', '', $authHeader);
 
     $reset = DB::table('password_resets')->where('token', $token)->first();

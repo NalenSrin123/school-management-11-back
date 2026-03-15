@@ -34,6 +34,7 @@ Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
 Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
 
 Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
+Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
+
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
