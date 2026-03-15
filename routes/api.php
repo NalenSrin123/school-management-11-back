@@ -6,6 +6,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +35,4 @@ Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPa
 // Route::post('/register', [GoogleController::class, 'register']);
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+Route::post("/register", [AuthController::class, "register"]);
