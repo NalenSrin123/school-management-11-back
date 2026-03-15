@@ -7,57 +7,74 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class resetPasswordController extends Controller
 {
-
-    // Forgot Password
+   // Forgot Password
     public function forgotPassword(Request $request)
     {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email not found'
+            ], 404);
+        }
+
+        // Generate token
         $token = Str::random(60);
 
+        // Insert token into password_resets table
         DB::table('password_resets')->insert([
             'email' => $request->email,
             'token' => $token,
             'created_at' => now()
         ]);
 
-        $link = url('/reset-password/'.$token);
+        // Create reset link
+        $link = url('/reset-password/'.$user->id.'/'.$token);
 
-        Mail::raw("Reset password: ".$link, function($message) use ($request) {
+        // Send email
+        Mail::raw("Reset password: ".$link, function($message) use ($request){
             $message->to($request->email)
                     ->subject('Reset Password');
         });
 
+        // Return token explicitly in response
         return response()->json([
             'message' => 'Email sent',
-            'token' => $token,        
-            'reset_link' => $link    
+            'reset_link' => $link,
+            'token' => $token  
         ]);
     }
 
     // Reset Password
-    public function resetPassword(Request $request, $token)
-    {
-        $reset = DB::table('password_resets')->where('token', $token)->first();
+    public function resetPassword(Request $request, $id)
+{
+    // Get token from Bearer Authorization header
+    $authHeader = $request->header('Authorization'); // "Bearer TOKEN"
+    $token = str_replace('Bearer ', '', $authHeader);
 
-        if (!$reset) {
-            return response()->json(['message' => 'Invalid token'], 400);
-        }
+    $reset = DB::table('password_resets')->where('token', $token)->first();
 
-        $user = User::where('email', $reset->email)->first();
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        DB::table('password_resets')->where('token', $token)->delete();
-
-        return response()->json(['message' => 'Password successfully reset']);
+    if (!$reset) {
+        return response()->json(['message' => 'Invalid token'], 400);
     }
+
+    $user = User::find($id);
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    DB::table('password_resets')->where('token', $token)->delete();
+
+    return response()->json(['message' => 'Password successfully reset']);
+}
 
 
     /**
