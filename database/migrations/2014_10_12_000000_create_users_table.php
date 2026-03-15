@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('google_id')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->unsignedBigInteger('RoleID');
             $table->foreign('RoleID')->references('RoleID')->on('roles')->onDelete('cascade');
             $table->string('password');
             $table->rememberToken();

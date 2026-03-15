@@ -17,8 +17,6 @@ return new class extends Migration
 
             // Foreign Key to UserAccount
             $table->foreignId('updated_by')->constrained('users');
-
-            $table->timestamp('updated_date')->useCurrentOnUpdate();
             $table->timestamps();
         });
     }
