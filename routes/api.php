@@ -7,6 +7,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SchoolLogoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +39,8 @@ Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassw
 
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::get('/logo', [SchoolLogoController::class, 'index']);
+Route::post('/logo', [SchoolLogoController::class, 'store']);
+Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
+Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
