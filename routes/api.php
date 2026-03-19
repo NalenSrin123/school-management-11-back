@@ -7,6 +7,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
 
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
@@ -37,3 +40,9 @@ Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword
 Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::get('/event', [EventController::class,'index']);
+Route::post('/event', [EventController::class,'store']);
+Route::get('/event', [EventController::class,'show']);
+Route::patch('/event', [EventController::class,'update']);
+Route::delete('/event', [EventController::class,'delete']);
