@@ -46,7 +46,7 @@ class AuthController extends Controller
             "email" => $validated["email"],
             "password" => Hash::make($validated["password"]),
             "status" => true,
-            "role_id" => 1,
+            "role_id" => 3,
         ]);
 
         // Generate a 6-digit random OTP and set expiration (10 minutes)
