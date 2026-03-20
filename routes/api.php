@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\ConfirmPasswordController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
@@ -37,3 +38,11 @@ Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword
 Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('/feedback', [FeedbackController::class, 'index']);
+Route::post('/feedback', [FeedbackController::class, 'store']);
+Route::get('/feedback/{feedback}', [FeedbackController::class, 'show']);
