@@ -6,6 +6,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SchoolLogoController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocatinControoler;
 use App\Http\Controllers\CourseController;
@@ -36,10 +37,15 @@ use Illuminate\Support\Facades\Route;
     Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
 Route::apiResource('locations', LocatinControoler::class);
 Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
+Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
+
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
+Route::get('/logo', [SchoolLogoController::class, 'index']);
+Route::post('/logo', [SchoolLogoController::class, 'store']);
+Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
+Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
 Route::get('/event', [EventController::class,'index']);
 Route::post('/event', [EventController::class,'store']);
 Route::get('/event', [EventController::class,'show']);
