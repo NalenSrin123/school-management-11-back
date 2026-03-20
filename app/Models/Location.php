@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
-
+    protected $table = 'locations';
     protected $fillable = [
         'name',
         'address',
@@ -22,7 +22,7 @@ class Location extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        // return $this->belongsTo(User::class, 'created_by');
     }
 }
 
