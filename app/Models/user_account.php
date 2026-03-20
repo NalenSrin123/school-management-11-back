@@ -16,7 +16,7 @@ class user_account extends Model
         'Email',
         'Password',
         'RoleID'
-    ]; 
+    ];
     public function role()
     {
         return $this->belongsTo(role::class, 'RoleID', 'RoleID');

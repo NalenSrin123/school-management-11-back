@@ -6,6 +6,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocatinControoler;
 use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
@@ -39,6 +40,11 @@ Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPa
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
+Route::get('/event', [EventController::class,'index']);
+Route::post('/event', [EventController::class,'store']);
+Route::get('/event', [EventController::class,'show']);
+Route::patch('/event', [EventController::class,'update']);
+Route::delete('/event', [EventController::class,'delete']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/courses', [CourseController::class, 'index']);
     Route::post('/courses', [CourseController::class, 'store']);
