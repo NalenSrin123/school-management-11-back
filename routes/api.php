@@ -11,6 +11,7 @@ use App\Http\Controllers\SchoolLogoController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocatinControoler;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\BannerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoadMapController;
@@ -76,3 +77,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
 });
+Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
+Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
+Route::post('/send_otp', [OtpController::class, 'sendOtp']);
+Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
+Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
+
+Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
+Route::get('/auth/google', [GoogleController::class, 'redirect']);
+Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::get('/banner', [BannerController::class, 'index']);
+Route::get('/banner/active', [BannerController::class, 'activeBanners']);
+Route::get('/banner/{id}', [BannerController::class, 'show']);
+Route::post('/banner', [BannerController::class, 'store']);
+Route::put('/banner/{id}', [BannerController::class, 'update']);
+Route::delete('/banner/{id}', [BannerController::class, 'destroy']);
+
