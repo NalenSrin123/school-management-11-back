@@ -6,6 +6,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,11 @@ Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword
 Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::get('/', [BannerController::class, 'index']);
+Route::get('/active', [BannerController::class, 'activeBanners']);
+Route::get('/{id}', [BannerController::class, 'show']);
+Route::post('/', [BannerController::class, 'store']);
+Route::put('/{id}', [BannerController::class, 'update']);
+Route::delete('/{id}', [BannerController::class, 'destroy']);
+
