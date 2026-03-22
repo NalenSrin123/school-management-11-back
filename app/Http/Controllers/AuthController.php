@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Services\ApiResponseService;
+use App\Service\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -90,6 +90,13 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Invalid credentials'
             ], 401);
+        }
+
+        // Check if user account is active
+        if (!$user->status) {
+            return response()->json([
+                'message' => 'Your account is inactive. Please contact administrator.'
+            ], 403);
         }
 
         // Return the token exactly like in `OtpController::loginWithOtp`
