@@ -24,11 +24,6 @@ class AuthController extends Controller
             "email" => "required|string|email|max:255|unique:users",
             "password" => [
                 "required",
-                Password::min(6)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
             ],
         ]);
 
