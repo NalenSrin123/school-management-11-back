@@ -70,13 +70,13 @@ Route::post('/event', [EventController::class,'store']);
 Route::get('/event', [EventController::class,'show']);
 Route::patch('/event', [EventController::class,'update']);
 Route::delete('/event', [EventController::class,'delete']);
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::get('/courses', [CourseController::class, 'index']);
     Route::post('/courses', [CourseController::class, 'store']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
-});
+// });
 Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
 Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
