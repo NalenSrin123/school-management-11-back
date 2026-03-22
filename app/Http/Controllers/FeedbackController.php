@@ -13,7 +13,14 @@ class FeedbackController extends Controller
     public function index()
     {
         //
+
+        $feedbacks = Feedback::all();
+
+        return response()->json([
+            'data' => $feedbacks
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,7 +35,21 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'message' => 'required',
+        ]);
+
+        $feedback = new Feedback();
+        $feedback->name = $request->name;
+        $feedback->email = $request->email;
+        $feedback->message = $request->message;
+        $feedback->status = 'pending';
+        $feedback->CreateDate = now(); // ✅ always set this
+        $feedback->save();
+
+        return response()->json($feedback, 201);
     }
 
     /**
@@ -37,6 +58,9 @@ class FeedbackController extends Controller
     public function show(feedback $feedback)
     {
         //
+        return response()->json([
+            'data' => $feedback
+        ]);
     }
 
     /**
