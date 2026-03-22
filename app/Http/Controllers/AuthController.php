@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Service\ApiResponseService;
+use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
-class AuthController extends Controller 
+class AuthController extends Controller
 {
     protected $apiResponse;
 
@@ -46,7 +46,7 @@ class AuthController extends Controller
             "email" => $validated["email"],
             "password" => Hash::make($validated["password"]),
             "status" => true,
-            "role_id" => 1,
+            "role_id" => 3,
         ]);
 
         // Generate a 6-digit random OTP and set expiration (10 minutes)

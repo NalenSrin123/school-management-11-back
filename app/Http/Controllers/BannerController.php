@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
-use App\Service\ApiResponseService;
+use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -70,7 +70,7 @@ class BannerController extends Controller
             if (empty($data)) {
                 $data = json_decode($request->getContent(), true);
             }
-            
+
             $validator = Validator::make($data ?? [], [
                 'title' => 'required|string|max:255',
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:2048',
@@ -130,7 +130,7 @@ class BannerController extends Controller
             if (empty($data)) {
                 $data = json_decode($request->getContent(), true);
             }
-            
+
             $banner = Banner::findOrFail($id);
 
             $validator = Validator::make($data ?? [], [
