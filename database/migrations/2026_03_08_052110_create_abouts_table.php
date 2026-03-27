@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,17 +12,16 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->text('content')->nullable();
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->dateTime('created_date');
-            $table->dateTime('updated_date')->nullable();
+            $table->string('title');        // About Us
+            $table->string('subtitle')->nullable(); // Welcome to ETEC CENTER
+            $table->text('mission')->nullable(); // Our Mission
+            $table->text('vision')->nullable();  // Our Vision
+            $table->string('image')->nullable(); // store image path
+            // Status
             $table->enum('status', ['active', 'inactive'])->default('active');
-
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamps();
         });
     }
 

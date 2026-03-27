@@ -6,19 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class About extends Model
 {
-
-
-    protected $fillable = [
-        'title',
-        'description',
-        'content',
-        'created_by',
-        'updated_by',
-        'created_date',
-        'updated_date',
-        'status'
-    ];
-
+    protected $fillable = ['title', 'subtitle', 'mission', 'vision', 'image', 'status', 'created_by', 'updated_by'];
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

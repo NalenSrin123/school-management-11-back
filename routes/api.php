@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ConfirmPasswordController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GoogleController;
@@ -95,3 +96,8 @@ Route::post('/banner', [BannerController::class, 'store']);
 Route::put('/banner/{id}', [BannerController::class, 'update']);
 Route::delete('/banner/{id}', [BannerController::class, 'destroy']);
 
+Route::get('/about',[AboutController::class,'index']);
+Route::post('/about', [AboutController::class,'store']);
+Route::get('/about/{id}', [AboutController::class,'show']);
+Route::patch('/about/{id}', [AboutController::class,'update']);
+Route::delete('/about', [AboutController::class,'destory']);
