@@ -38,9 +38,9 @@ use App\Http\Controllers\RoadMapController;
     Route::post('/send_otp', [OtpController::class, 'sendOtp']);
     Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
     Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
-Route::apiResource('locations', LocatinControoler::class);
-Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
+    Route::apiResource('locations', LocatinControoler::class);
+    Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+    Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
