@@ -7,6 +7,8 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SocialConnectionController;
+use App\Models\SocialConnection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,10 +40,24 @@ Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPa
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
+
+// Dara
 Route::middleware('auth:sanctum')->group(function () {
+    // courses
     Route::get('/courses', [CourseController::class, 'index']);
-    Route::post('/courses', [CourseController::class, 'store']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::put('/courses/{id}', [CourseController::class, 'update']);
-    Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+    // socials
+    Route::get('/social', [SocialConnectionController::class,'index']);
+    Route::get('/social/{id}', [SocialConnectionController::class,'show']);
+
+    Route::middleware('is_admin')->group(function () {
+        // socials
+        Route::post('/social', [SocialConnectionController::class,'store']);
+        Route::post('/social/{id}', [SocialConnectionController::class,'update']);
+        Route::delete('/social/{id}', [SocialConnectionController::class,'destroy']);
+        // courses
+        Route::post('/courses', [CourseController::class, 'store']);
+        Route::put('/courses/{id}', [CourseController::class, 'update']);
+        Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+    });
 });
