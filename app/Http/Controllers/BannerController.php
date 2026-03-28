@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
-use App\Service\ApiResponseService;
+use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
