@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\OtpCode;
+use App\Mail\OtpMail;
 use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -49,19 +52,6 @@ class AuthController extends Controller
             "role_id" => 1,
         ]);
 
-        // Generate a 6-digit random OTP and set expiration (10 minutes)
-        $otp = rand(100000, 999999);
-        $expire_at = now()->addMinutes(10);
-
-        // Store or update the OTP in the database
-        \App\Models\OtpCode::updateOrCreate(
-            ['email' => $user->email],
-            ['code' => $otp, 'expire_at' => $expire_at]
-        );
-
-        // Dispatch the email using the SMTP configuration
-        \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
-
         return response()->json([
             "message" => "User registered successfully. An OTP has been sent to your email to verify your login.",
             "data" => [
@@ -92,14 +82,23 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Return the token exactly like in `OtpController::loginWithOtp`
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Generate a 6-digit random OTP and set expiration (10 minutes)
+        $otp = rand(100000, 999999);
+        $expire_at = now()->addMinutes(10);
+
+        // Store or update the OTP in the database
+        OtpCode::updateOrCreate(
+            ['email' => $user->email],
+            ['code' => $otp, 'expire_at' => $expire_at]
+        );
+
+        // Dispatch the email using the SMTP configuration
+        Mail::to($user->email)->send(new OtpMail($otp));
 
         return response()->json([
             'success' => true,
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user
+            'message' => 'Login successful. An OTP has been sent to your email. Please verify it to complete your login.',
+            'user' => $user->only(['id', 'name', 'email'])
         ], 200);
     }
 }
