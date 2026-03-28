@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Services\ApiResponseService;
+use App\Service\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,14 +18,16 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::all();
+        $events = Event::orderBy('CreatedDate','desc')
+                        ->take(6)
+                        ->get();
 
         if ($events->isEmpty()) {
             return $this->apiResponse->error('No events found');
         }
 
         return $this->apiResponse->success([
-            'message' => 'Events Retrieved Successfully',
+            'message' => 'API get 6 Events Retrieved Successfully',
             'data' => $events,
         ], 200);
     }
