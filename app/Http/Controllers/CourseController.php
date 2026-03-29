@@ -55,7 +55,6 @@ class CourseController extends Controller
                 'description' => $request->description,
                 'duration' => $request->duration,
                 'status' => $request->status ?? 'Active',
-                'created_by' => Auth::id(),
             ]);
 
             return $this->apiResponse->success($course, 'Course created successfully', 201);
