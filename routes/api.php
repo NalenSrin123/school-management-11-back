@@ -51,13 +51,13 @@ use App\Http\Controllers\UserCourseDetailController;
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::get('/roadmaps', [RoadMapController::class, 'index']);
     Route::post('/roadmaps', [RoadMapController::class, 'store']);
     Route::get('/roadmaps/{id}', [RoadMapController::class, 'show']);
     Route::put('/roadmaps/{id}', [RoadMapController::class, 'update']);
     Route::delete('/roadmaps/{id}', [RoadMapController::class, 'destroy']);
-});
+// });
 
 Route::post("/register", [AuthController::class, "register"]);
 Route::post('/login', [AuthController::class, 'login']);
@@ -92,20 +92,11 @@ Route::delete('/event', [EventController::class,'delete']);
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
 // });
-Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
-Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
-Route::post('/send_otp', [OtpController::class, 'sendOtp']);
-Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
-Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
 
-Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-Route::post('/reset-password/{token}', [resetPasswordController::class, 'resetPassword']);
-Route::get('/auth/google', [GoogleController::class, 'redirect']);
-Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 
 // Dara
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     // courses
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
@@ -113,7 +104,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/social', [SocialConnectionController::class,'index']);
     Route::get('/social/{id}', [SocialConnectionController::class,'show']);
 
-    Route::middleware('is_admin')->group(function () {
+    // Route::middleware('is_admin')->group(function () {
         // socials
         Route::post('/social', [SocialConnectionController::class,'store']);
         Route::post('/social/{id}', [SocialConnectionController::class,'update']);
@@ -122,8 +113,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/courses', [CourseController::class, 'store']);
         Route::put('/courses/{id}', [CourseController::class, 'update']);
         Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
-    });
-});
+    // });
+// });
 Route::get('/banner', [BannerController::class, 'index']);
 Route::get('/banner/active', [BannerController::class, 'activeBanners']);
 Route::get('/banner/{id}', [BannerController::class, 'show']);
