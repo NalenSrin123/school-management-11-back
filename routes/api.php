@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ConfirmPasswordController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GoogleController;
@@ -33,7 +34,7 @@ use App\Http\Controllers\UserCourseDetailController;
 
     Route::post("/register", [AuthController::class, "register"]);
     Route::post("/login", [AuthController::class, "login"]);
-    
+
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
@@ -43,9 +44,9 @@ use App\Http\Controllers\UserCourseDetailController;
     Route::post('/send_otp', [OtpController::class, 'sendOtp']);
     Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
     Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
-Route::apiResource('locations', LocatinControoler::class);
-Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
+    Route::apiResource('locations', LocatinControoler::class);
+    Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+    Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
@@ -66,7 +67,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class)
         ->only(['index', 'show']);
-        
+
     Route::apiResource('users', UserController::class)
         ->only(['store', 'update', 'destroy'])
         ->middleware('is_admin');
@@ -131,3 +132,8 @@ Route::put('/banner/{id}', [BannerController::class, 'update']);
 Route::delete('/banner/{id}', [BannerController::class, 'destroy']);
 
 Route::get('/user/courses/{id}', [UserCourseDetailController::class, 'courseDetail']);
+Route::get('/about',[AboutController::class,'index']);
+Route::post('/about', [AboutController::class,'store']);
+Route::get('/about/{id}', [AboutController::class,'show']);
+Route::patch('/about/{id}', [AboutController::class,'update']);
+Route::delete('/about/{id}', [AboutController::class,'destory']);
