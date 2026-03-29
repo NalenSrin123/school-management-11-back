@@ -94,13 +94,13 @@ class AuthController extends Controller
         // $otp = rand(100000, 999999);
         // $expire_at = now()->addMinutes(10);
 
-        // // Store or update the OTP in the database
+        // Store or update the OTP in the database
         // OtpCode::updateOrCreate(
         //     ['email' => $user->email],
         //     ['code' => $otp, 'expire_at' => $expire_at]
         // );
 
-        // // Dispatch the email using the SMTP configuration
+        // Dispatch the email using the SMTP configuration
         // Mail::to($user->email)->send(new OtpMail($otp));
 
         return response()->json([
