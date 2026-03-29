@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
+use App\Models\event;
 use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
@@ -18,7 +19,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::all();
+        $events = event::all();
 
         if ($events->isEmpty()) {
             return $this->apiResponse->error('No events found');
@@ -44,10 +45,10 @@ class EventController extends Controller
         }
 
         $data = $validator->validated();
-        $data['CreatedBy'] = auth()->id();
+        $data['CreatedBy'] = Auth::user()->id;
         $data['CreatedDate'] = now();
 
-        $event = Event::create($data);
+        $event = event::create($data);
 
         return $this->apiResponse->success([
             'data' => $event,
@@ -57,7 +58,7 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::findOrFail($id);
+        $event = event::findOrFail($id);
 
         return $this->apiResponse->success([
             'message' => 'Event Retrieved Successfully',
@@ -67,7 +68,7 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
+        $event = event::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'Name' => 'sometimes|string|min:1|max:255',
@@ -89,7 +90,7 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        $event = Event::findOrFail($id);
+        $event = event::findOrFail($id);
         $event->delete();
 
         return $this->apiResponse->success([

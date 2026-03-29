@@ -82,11 +82,11 @@ Route::get('/logo/{id}', [SchoolLogoController::class, 'show']);
 Route::post('/logo', [SchoolLogoController::class, 'store']);
 Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
 Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
-Route::get('/event', [EventController::class, 'index']);
-Route::post('/event', [EventController::class, 'store']);
-Route::get('/event', [EventController::class, 'show']);
-Route::patch('/event', [EventController::class, 'update']);
-Route::delete('/event', [EventController::class, 'delete']);
+Route::get('/event', [EventController::class,'index']);
+Route::post('/event', [EventController::class,'store']);
+Route::get('/event/{id}', [EventController::class,'show']);
+Route::put('/event/{id}', [EventController::class,'update']);
+Route::delete('/event/{id}', [EventController::class,'destroy']);
 // Route::middleware('auth:sanctum')->group(function () {
 Route::get('/courses', [CourseController::class, 'index']);
 Route::post('/courses', [CourseController::class, 'store']);
