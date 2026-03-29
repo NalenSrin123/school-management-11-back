@@ -77,6 +77,7 @@ Route::get('/feedback', [FeedbackController::class, 'index']);
 Route::post('/feedback', [FeedbackController::class, 'store']);
 Route::get('/feedback/{feedback}', [FeedbackController::class, 'show']);
 Route::get('/logo', [SchoolLogoController::class, 'index']);
+Route::get('/logo/{id}', [SchoolLogoController::class, 'show']);
 Route::post('/logo', [SchoolLogoController::class, 'store']);
 Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
 Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);

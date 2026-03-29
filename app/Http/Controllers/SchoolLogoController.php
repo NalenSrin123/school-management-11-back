@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SchoolLogo;
+use App\Services\ApiResponseService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SchoolLogoController extends Controller
 {
+    private $apiResponseService;
+
+    public function __construct(ApiResponseService $apiResponseService)
+    {
+        $this->apiResponseService = $apiResponseService;
+    }
+
     public function index()
     {
         try {
             $logos = SchoolLogo::all();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Logos fetched successfully',
-                'data' => $logos
-            ]);
+
+            return $this->apiResponseService->success($logos);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch logos',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->apiResponseService->error($e->getMessage());
         }
     }
 
@@ -30,29 +32,18 @@ class SchoolLogoController extends Controller
     {
         try {
             $request->validate([
-                'logo' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+                'logo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
             ]);
 
-            $file = $request->file('logo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-
-            $file->move(public_path('logos'), $filename);
+            $path = $request->file('logo')->store('logos', 'public');
 
             $logo = SchoolLogo::create([
-                'logo' => $filename
+                'logo' => $path,
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Logo uploaded successfully',
-                'data' => $logo
-            ]);
+            return $this->apiResponseService->success($this->formatLogo($logo), 'Logo Created Succesfully', 201);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Upload failed',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->apiResponseService->error($e->getMessage());
         }
     }
 
@@ -61,17 +52,9 @@ class SchoolLogoController extends Controller
         try {
             $logo = SchoolLogo::findOrFail($id);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Logo found',
-                'data' => $logo
-            ]);
+            return $this->apiResponseService->success($this->formatLogo($logo), 'Logo Reatived Successfully');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Logo not found',
-                'error' => $e->getMessage()
-            ], 404);
+            return $this->apiResponseService->error($e->getMessage());
         }
     }
 
@@ -80,33 +63,23 @@ class SchoolLogoController extends Controller
         try {
             $logo = SchoolLogo::findOrFail($id);
 
-            if ($request->hasFile('logo')) {
+            $request->validate([
+                'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            ]);
 
-                if ($logo->logo && file_exists(public_path('logos/' . $logo->logo))) {
-                    unlink(public_path('logos/' . $logo->logo));
+            if ($request->hasFile('logo')) {
+                if ($logo->logo && Storage::disk('public')->exists($logo->logo)) {
+                    Storage::disk('public')->delete($logo->logo);
                 }
 
-                $file = $request->file('logo');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-
-                $file->move(public_path('logos'), $filename);
-
-                $logo->logo = $filename;
+                $logo->logo = $request->file('logo')->store('logos', 'public');
             }
 
             $logo->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Logo updated successfully',
-                'data' => $logo
-            ]);
+            return $this->apiResponseService->success($this->formatLogo($logo), 'Logo Updated Succesfully', 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Update failed',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->apiResponseService->error($e->getMessage());
         }
     }
 
@@ -115,22 +88,16 @@ class SchoolLogoController extends Controller
         try {
             $logo = SchoolLogo::findOrFail($id);
 
-            if ($logo->logo && file_exists(public_path('logos/' . $logo->logo))) {
-                unlink(public_path('logos/' . $logo->logo));
+            if ($logo->logo && Storage::disk('public')->exists($logo->logo)) {
+                Storage::disk('public')->delete($logo->logo);
             }
 
             $logo->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Deleted successfully'
-            ]);
+            return $this->apiResponseService->success(null, 'Deleted successfully');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Delete failed...!',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->apiResponseService->error($e->getMessage(), 500);
         }
     }
+
 }
