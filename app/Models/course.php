@@ -22,4 +22,5 @@ class Course extends Model
         // 'created_by' is the foreign key in the courses table
         return $this->belongsTo(User::class, 'created_by');
     }
+
 }
