@@ -5,18 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class role extends Model
+class SchoolLogo extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
+
+     protected $table = 'school_logos';
 
     protected $fillable = [
-        'name'
+        'logo'
     ];
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'role_id', 'id');
-    }
-
 }
