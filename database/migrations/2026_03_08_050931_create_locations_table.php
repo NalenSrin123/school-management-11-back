@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('created_date');
             $table->dateTime('updated_date')->nullable();
 
-            $table->foreign('created_by')->references('id')->on('users');
+            // $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

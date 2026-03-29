@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
-class AuthController extends Controller
+class AuthController extends Controller 
 {
     protected $apiResponse;
 
