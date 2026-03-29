@@ -19,7 +19,7 @@ class ApiResponseService
         return response()->json([
             "status" => false,
             "message" => $message,
-            
+
         ], $status);
     }
 }

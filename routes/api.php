@@ -18,6 +18,8 @@ use App\Http\Controllers\BannerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoadMapController;
+use App\Http\Controllers\UserCourseDetailController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +33,7 @@ use App\Http\Controllers\RoadMapController;
 
     Route::post("/register", [AuthController::class, "register"]);
     Route::post("/login", [AuthController::class, "login"]);
+    
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
@@ -127,3 +130,4 @@ Route::post('/banner', [BannerController::class, 'store']);
 Route::put('/banner/{id}', [BannerController::class, 'update']);
 Route::delete('/banner/{id}', [BannerController::class, 'destroy']);
 
+Route::get('/user/courses/{id}', [UserCourseDetailController::class, 'courseDetail']);
