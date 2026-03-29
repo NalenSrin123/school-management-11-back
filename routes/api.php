@@ -7,6 +7,7 @@ use App\Http\Controllers\ResetOTPController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\resetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SchoolLogoController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocatinControoler;
@@ -58,6 +59,14 @@ Route::post("/register", [AuthController::class, "register"]);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('users', UserController::class)
+        ->only(['index', 'show']);
+        
+    Route::apiResource('users', UserController::class)
+        ->only(['store', 'update', 'destroy'])
+        ->middleware('is_admin');
 });
 
 Route::get('/feedback', [FeedbackController::class, 'index']);

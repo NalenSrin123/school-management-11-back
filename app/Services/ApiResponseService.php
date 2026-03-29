@@ -1,24 +1,25 @@
 <?php
-
 namespace App\Services;
 
 class ApiResponseService
 {
-    public function success($data, $message = '', $code = 200)
+    // Send a success response
+    public function success($data = null, $message = "Success", $status = 200)
     {
         return response()->json([
-            'success' => true,
-            'message' => $message,
-            'data' => $data
-        ], $code);
+            "status" => true,
+            "message" => $message,
+            "data" => $data
+        ], $status);
     }
 
-    public function error($message = '', $code = 400)
+    // Send an error response
+    public function error($message = "Error", $status = 400, $errors = null)
     {
         return response()->json([
-            'success' => false,
-            'message' => $message,
-            'data' => null
-        ], $code);
+            "status" => false,
+            "message" => $message,
+            
+        ], $status);
     }
 }
