@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SchoolLogoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,5 @@ Route::get('/logo', [SchoolLogoController::class, 'index']);
 Route::post('/logo', [SchoolLogoController::class, 'store']);
 Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
 Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
+
+Route::apiResource('menus', MenuController::class);
