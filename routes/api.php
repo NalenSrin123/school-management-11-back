@@ -16,6 +16,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SocialConnectionController;
 use App\Models\SocialConnection;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\Getallcoursescontroller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoadMapController;
@@ -35,11 +36,11 @@ use App\Http\Controllers\UserCourseDetailController;
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
+// Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
 Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
 Route::post('/send_otp', [OtpController::class, 'sendOtp']);
 Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
@@ -77,6 +78,7 @@ Route::get('/feedback', [FeedbackController::class, 'index']);
 Route::post('/feedback', [FeedbackController::class, 'store']);
 Route::get('/feedback/{feedback}', [FeedbackController::class, 'show']);
 Route::get('/logo', [SchoolLogoController::class, 'index']);
+Route::get('/logo/{id}', [SchoolLogoController::class, 'show']);
 Route::post('/logo', [SchoolLogoController::class, 'store']);
 Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
 Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
@@ -92,6 +94,11 @@ Route::get('/courses/{id}', [CourseController::class, 'show']);
 Route::put('/courses/{id}', [CourseController::class, 'update']);
 Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
 // });
+// Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
+Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
+Route::post('/send_otp', [OtpController::class, 'sendOtp']);
+Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
+Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
 
 
 
@@ -115,6 +122,7 @@ Route::put('/courses/{id}', [CourseController::class, 'update']);
 Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
 // });
 // });
+
 Route::get('/banner', [BannerController::class, 'index']);
 Route::get('/banner/active', [BannerController::class, 'activeBanners']);
 Route::get('/banner/{id}', [BannerController::class, 'show']);
@@ -128,3 +136,4 @@ Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
 Route::patch('/about/{id}', [AboutController::class, 'update']);
 Route::delete('/about/{id}', [AboutController::class, 'destory']);
+Route::get('/getallcourse', [Getallcoursescontroller::class, 'index']);

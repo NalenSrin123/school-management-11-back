@@ -27,11 +27,17 @@ class RoadMapController extends Controller
         ]);
 
         $imagePath = null;
-
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
-            $imagePath = $file->store('roadmaps', 'public'); // saves in storage/app/public/roadmaps
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('roadmaps'), $filename);
+            $imagePath = asset('roadmaps/' . $filename);
         }
+        // if ($request->hasFile('image_path')) {
+        //     $file = $request->file('image_path');
+        //     $imagePath = $file->store('roadmaps', 'public'); // saves in storage/app/public/roadmaps
+        // }
+
 
         $roadmap = RoadMap::create([
             'title' => $request->title,
@@ -77,9 +83,27 @@ class RoadMapController extends Controller
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle file upload
         if ($request->hasFile('image_path')) {
-            $roadmap->image_path = $request->file('image_path')->store('roadmaps', 'public');
+            $file = $request->file('image_path');
+
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $destination = public_path('roadmaps');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $file->move($destination, $filename);
+
+            // Delete old image safely
+            if ($roadmap->image_path) {
+                $oldPath = public_path('roadmaps/' . basename($roadmap->image_path));
+                if (is_file($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $roadmap->image_path = asset('roadmaps/' . $filename);
         }
 
         // ✅ Short and clean update
@@ -104,8 +128,15 @@ class RoadMapController extends Controller
         }
 
         // Delete the uploaded image if it exists
-        if ($roadmap->image_path && Storage::disk('public')->exists($roadmap->image_path)) {
-            Storage::disk('public')->delete($roadmap->image_path);
+        // if ($roadmap->image_path && Storage::disk('public')->exists($roadmap->image_path)) {
+        //     Storage::disk('public')->delete($roadmap->image_path);
+        // }
+
+        if ($roadmap->image_path) {
+            $path = public_path('roadmaps/' . basename($roadmap->image_path));
+            if (is_file($path)) {
+                unlink($path);
+            }
         }
 
         $roadmap->delete();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('duration')->nullable();
             $table->string('status')->default('Active');
-            $table->foreignId('created_by')->constrained('users');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->index('status');
             $table->timestamps();
         });
