@@ -20,6 +20,6 @@ class event extends Model
 
     public function user()
     {
-        return $this->belongsTo(user_account::class, 'CreatedBy', 'UserID');
+        return $this->belongsTo(User::class, 'CreatedBy', 'id');
     }
 }

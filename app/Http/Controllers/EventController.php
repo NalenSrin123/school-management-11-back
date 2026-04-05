@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\event;
 use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
@@ -44,7 +45,7 @@ class EventController extends Controller
         }
 
         $data = $validator->validated();
-        $data['CreatedBy'] = 5;
+       $data['CreatedBy'] = Auth::id(); // shortcut for Auth::check() ? Auth::user()->id : null
         $data['CreatedDate'] = now();
 
         $event = event::create($data);
