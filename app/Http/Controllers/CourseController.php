@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -42,6 +43,7 @@ class CourseController extends Controller
             'description' => 'nullable|string',
             'duration' => 'nullable|string|max:255',
             'status' => 'nullable|string|in:Active,Inactive',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -49,12 +51,19 @@ class CourseController extends Controller
         }
 
         try {
+            $imagePath = null;
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('courses', 'public');
+            }
 
             $course = Course::create([
                 'name' => $request->name,
                 'description' => $request->description,
                 'duration' => $request->duration,
                 'status' => $request->status ?? 'Active',
+                'image' => $imagePath,
+                'created_by' => Auth::id(),
             ]);
 
             return $this->apiResponse->success($course, 'Course created successfully', 201);
@@ -100,13 +109,24 @@ class CourseController extends Controller
                 'description' => 'nullable|string',
                 'duration' => 'nullable|string|max:255',
                 'status' => 'nullable|string|in:Active,Inactive',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
             if ($validator->fails()) {
                 return $this->apiResponse->error('Validation failed', 422, $validator->errors());
             }
 
-            $course->update($request->only(['name', 'description', 'duration', 'status']));
+            $updateData = $request->only(['name', 'description', 'duration', 'status']);
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($course->image) {
+                    Storage::disk('public')->delete($course->image);
+                }
+                $updateData['image'] = $request->file('image')->store('courses', 'public');
+            }
+
+            $course->update($updateData);
 
             return $this->apiResponse->success($course, 'Course updated successfully', 200);
         } catch (\Exception $e) {
@@ -136,4 +156,3 @@ class CourseController extends Controller
         }
     }
 }
-
