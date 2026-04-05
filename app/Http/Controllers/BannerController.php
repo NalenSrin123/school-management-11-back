@@ -54,7 +54,7 @@ class BannerController extends Controller
             $banner = Banner::create([
                 'title'        => $data['title'],
                 'image_path'   => $imageUrl,
-                'created_by'   => Auth::id(),
+                'created_by'   => Auth::id() ?? 1,
                 'status'       => $data['status'],
                 'created_date' => now(),
             ]);
