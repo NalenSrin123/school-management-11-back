@@ -14,12 +14,20 @@ class Course extends Model
         'description',
         'duration',
         'status',
+        'image',
         'created_by'
     ];
+
+    protected $appends = ['image_url'];
 
     public function creator()
     {
         // 'created_by' is the foreign key in the courses table
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
     }
 }
