@@ -32,31 +32,31 @@ use App\Http\Controllers\UserCourseDetailController;
 |
 */
 
-    Route::post("/register", [AuthController::class, "register"]);
-    Route::post("/login", [AuthController::class, "login"]);
+Route::post("/register", [AuthController::class, "register"]);
+Route::post("/login", [AuthController::class, "login"]);
 
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-    Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
-    Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
-    Route::post('/send_otp', [OtpController::class, 'sendOtp']);
-    Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
-    Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
-    Route::apiResource('locations', LocatinControoler::class);
-    Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
-    Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
+Route::middleware('auth:sanctum')->post('/confirm-password', [ConfirmPasswordController::class, 'confirmNewPassword']);
+Route::post('/resetOtp', [ResetOTPController::class, "resetOtp"]);
+Route::post('/send_otp', [OtpController::class, 'sendOtp']);
+Route::post('/verify_otp', [OtpController::class, 'verifyOtp']);
+Route::post('/loginWithOtp', [OtpController::class, 'loginWithOtp']);
+Route::apiResource('locations', LocatinControoler::class);
+Route::post('/forgot-password', [resetPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password/{id}', [resetPasswordController::class, 'resetPassword']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 // Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/roadmaps', [RoadMapController::class, 'index']);
-    Route::post('/roadmaps', [RoadMapController::class, 'store']);
-    Route::get('/roadmaps/{id}', [RoadMapController::class, 'show']);
-    Route::put('/roadmaps/{id}', [RoadMapController::class, 'update']);
-    Route::delete('/roadmaps/{id}', [RoadMapController::class, 'destroy']);
+Route::get('/roadmaps', [RoadMapController::class, 'index']);
+Route::post('/roadmaps', [RoadMapController::class, 'store']);
+Route::get('/roadmaps/{id}', [RoadMapController::class, 'show']);
+Route::put('/roadmaps/{id}', [RoadMapController::class, 'update']);
+Route::delete('/roadmaps/{id}', [RoadMapController::class, 'destroy']);
 // });
 
 Route::post("/register", [AuthController::class, "register"]);
@@ -80,40 +80,40 @@ Route::get('/logo', [SchoolLogoController::class, 'index']);
 Route::post('/logo', [SchoolLogoController::class, 'store']);
 Route::put('/logo/{id}', [SchoolLogoController::class, 'update']);
 Route::delete('/logo/{id}', [SchoolLogoController::class, 'destroy']);
-Route::get('/event', [EventController::class,'index']);
-Route::post('/event', [EventController::class,'store']);
-Route::get('/event/{id}', [EventController::class,'show']);
-Route::put('/event/{id}', [EventController::class,'update']);
-Route::delete('/event/{id}', [EventController::class,'destroy']);
+Route::get('/event', [EventController::class, 'index']);
+Route::post('/event', [EventController::class, 'store']);
+Route::get('/event/{id}', [EventController::class, 'show']);
+Route::put('/event/{id}', [EventController::class, 'update']);
+Route::delete('/event/{id}', [EventController::class, 'destroy']);
 // Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::post('/courses', [CourseController::class, 'store']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::put('/courses/{id}', [CourseController::class, 'update']);
-    Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+Route::get('/courses', [CourseController::class, 'index']);
+Route::post('/courses', [CourseController::class, 'store']);
+Route::get('/courses/{id}', [CourseController::class, 'show']);
+Route::put('/courses/{id}', [CourseController::class, 'update']);
+Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
 // });
 
 
 
 // Dara
 // Route::middleware('auth:sanctum')->group(function () {
-    // courses
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
-    // socials
-    Route::get('/social', [SocialConnectionController::class,'index']);
-    Route::get('/social/{id}', [SocialConnectionController::class,'show']);
+// courses
+Route::get('/courses', [CourseController::class, 'index']);
+Route::get('/courses/{id}', [CourseController::class, 'show']);
+// socials
+Route::get('/social', [SocialConnectionController::class, 'index']);
+Route::get('/social/{id}', [SocialConnectionController::class, 'show']);
 
-    // Route::middleware('is_admin')->group(function () {
-        // socials
-        Route::post('/social', [SocialConnectionController::class,'store']);
-        Route::post('/social/{id}', [SocialConnectionController::class,'update']);
-        Route::delete('/social/{id}', [SocialConnectionController::class,'destroy']);
-        // courses
-        Route::post('/courses', [CourseController::class, 'store']);
-        Route::put('/courses/{id}', [CourseController::class, 'update']);
-        Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
-    // });
+// Route::middleware('is_admin')->group(function () {
+// socials
+Route::post('/social', [SocialConnectionController::class, 'store']);
+Route::post('/social/{id}', [SocialConnectionController::class, 'update']);
+Route::delete('/social/{id}', [SocialConnectionController::class, 'destroy']);
+// courses
+Route::post('/courses', [CourseController::class, 'store']);
+Route::put('/courses/{id}', [CourseController::class, 'update']);
+Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+// });
 // });
 Route::get('/banner', [BannerController::class, 'index']);
 Route::get('/banner/active', [BannerController::class, 'activeBanners']);
@@ -123,8 +123,8 @@ Route::put('/banner/{id}', [BannerController::class, 'update']);
 Route::delete('/banner/{id}', [BannerController::class, 'destroy']);
 
 Route::get('/user/courses/{id}', [UserCourseDetailController::class, 'courseDetail']);
-Route::get('/about',[AboutController::class,'index']);
-Route::post('/about', [AboutController::class,'store']);
-Route::get('/about/{id}', [AboutController::class,'show']);
-Route::patch('/about/{id}', [AboutController::class,'update']);
-Route::delete('/about/{id}', [AboutController::class,'destory']);
+Route::get('/about', [AboutController::class, 'index']);
+Route::post('/about', [AboutController::class, 'store']);
+Route::get('/about/{id}', [AboutController::class, 'show']);
+Route::patch('/about/{id}', [AboutController::class, 'update']);
+Route::delete('/about/{id}', [AboutController::class, 'destory']);
