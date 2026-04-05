@@ -135,5 +135,5 @@ Route::get('/about',[AboutController::class,'index']);
 Route::post('/about', [AboutController::class,'store']);
 Route::get('/about/{id}', [AboutController::class,'show']);
 Route::patch('/about/{id}', [AboutController::class,'update']);
-Route::delete('/about/{id}', [AboutController::class,'destory']);
+Route::delete('/about/{id}', [AboutController::class,'destroy']);
 Route::get('/getallcourse', [Getallcoursescontroller::class, 'index']);
