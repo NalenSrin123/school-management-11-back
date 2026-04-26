@@ -45,7 +45,7 @@ class EventController extends Controller
         }
 
         $data = $validator->validated();
-        $data['CreatedBy'] = Auth::user()->id;
+       $data['CreatedBy'] = Auth::id(); // shortcut for Auth::check() ? Auth::user()->id : null
         $data['CreatedDate'] = now();
 
         $event = event::create($data);
